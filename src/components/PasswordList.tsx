@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -40,22 +39,6 @@ const PasswordList = () => {
     fetchPasswords();
   }, [user]);
 
-  if (!user) {
-    return (
-      <div className="text-center p-8">
-        <p>Please log in to view your passwords</p>
-      </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div className="text-center p-8">
-        <p>Loading your passwords...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="rounded-md border">
       <Table>
@@ -71,7 +54,7 @@ const PasswordList = () => {
           {passwords.length === 0 ? (
             <TableRow>
               <TableCell colSpan={4} className="text-center">
-                No passwords stored yet
+                {loading ? "Loading..." : "No passwords stored yet"}
               </TableCell>
             </TableRow>
           ) : (
