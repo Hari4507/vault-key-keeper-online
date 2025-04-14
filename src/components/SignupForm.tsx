@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
+const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +21,7 @@ const LoginForm = () => {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
       });
@@ -32,6 +32,12 @@ const LoginForm = () => {
           title: "Error",
           description: error.message,
         });
+      } else {
+        toast({
+          title: "Success",
+          description: "Please check your email to verify your account",
+        });
+        navigate("/");
       }
     } catch (error) {
       toast({
@@ -47,9 +53,9 @@ const LoginForm = () => {
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="space-y-1">
-        <h2 className="text-2xl font-bold text-center">Welcome back</h2>
+        <h2 className="text-2xl font-bold text-center">Create an account</h2>
         <p className="text-muted-foreground text-center">
-          Enter your credentials to access your vault
+          Enter your email and password to create your account
         </p>
       </CardHeader>
       <CardContent>
@@ -94,19 +100,19 @@ const LoginForm = () => {
             </div>
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Signing in..." : "Sign in"}
+            {loading ? "Creating account..." : "Sign up"}
           </Button>
         </form>
       </CardContent>
       <CardFooter className="flex flex-col space-y-4">
         <div className="text-sm text-center text-muted-foreground">
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <Button
             variant="link"
             className="p-0 h-auto font-normal"
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate("/")}
           >
-            Sign up
+            Sign in
           </Button>
         </div>
       </CardFooter>
@@ -114,4 +120,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;
